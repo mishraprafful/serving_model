@@ -1,4 +1,5 @@
 import requests
+import logging
 from io import BytesIO
 from torch import cat, cuda, device
 from PIL import Image, UnidentifiedImageError
@@ -6,6 +7,8 @@ from PIL import Image, UnidentifiedImageError
 
 import torchvision.transforms as transforms
 from network.image_model import ImageFeatureExtractor
+
+logger = logging.getLogger('root')
 
 
 class ImageEncoder():
@@ -21,6 +24,9 @@ class ImageEncoder():
         self.model.eval()
 
         self.model.to(device(self.machine_device))
+        logger.info("Initialised Image Encoder")
+
+        logger.info("Device Used: {}".format(self.machine_device))
 
     def preprocess_images(self, urls):
         """ Preprocess Images
@@ -41,6 +47,7 @@ class ImageEncoder():
             loader = transforms.Compose([resize, transforms.ToTensor()])
             img = loader(image_).float().unsqueeze(0)
             preprocessed_imgs.append(img)
+        logger.info("Preprocessed Image Batch")
 
         return cat(preprocessed_imgs, dim=0)
 
@@ -55,4 +62,5 @@ class ImageEncoder():
         image_inputs = self.preprocess_images(urls)
         image_inputs.to(device(self.machine_device))
         vectors = self.model(image_inputs).cpu().detach().numpy().tolist()
+        logger.info("Vectorised Images")
         return vectors

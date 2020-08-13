@@ -1,4 +1,9 @@
+from utils.request_parser import parse_request
+from encoder.image_encoder import ImageEncoder
+from encoder.text_encoder import TextEncoder
+from config import config
 import os
+import sys
 from operator import itemgetter
 
 from flask import Flask
@@ -6,19 +11,21 @@ from flask import jsonify, Response
 from flask import request
 from flask import make_response, render_template
 
-from config import config
-from encoder.text_encoder import TextEncoder
-from encoder.image_encoder import ImageEncoder
-from utils.request_parser import parse_request
+import logging
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # init ecnoders
 text_model = TextEncoder()
 image_model = ImageEncoder()
+logger.info("Models Imported Sucessfully")
 
 app = Flask(__name__, template_folder="./templates/")
 
 # Load config values from config
 app.config.from_object(config)
+logger.info("Config Imported Successfully")
 
 # html rendered homepage
 
@@ -26,6 +33,7 @@ app.config.from_object(config)
 @app.route("/", methods=["GET"])
 def index():
     headers = {"Content-Type": "text/html"}
+    logger.info("Rendered HTML Page")
     return make_response(render_template("index.html"), 200, headers)
 
 
@@ -37,21 +45,31 @@ def vectorise():
 
     # verifying headers
     if auth != 'application/json':
+        logger.error("Not Authorised")
         return jsonify({"Status": "Unauthorised Access"}), 401
+
+    logger.info("Autorization Successful")
 
     # parsing reequest
     error, req = parse_request(request)
     if error is not None:
+        logger.error("Invalid Request! Parsing Unsucessful")
         return jsonify(error), 402
     else:
+
+        logger.info("Request Parsed")
 
         # generating batch of image_urls and text
         batch_text = list(map(itemgetter('text'), request.json))
         batch_urls = list(map(itemgetter('image'), request.json))
 
+        logger.info("Batches generated")
+
         # vectorising inputs
         text_vector = text_model.vectorise(batch_text)
         image_vector = image_model.vectorise(batch_urls)
+
+        logger.info("Vectorisation Successful")
 
         # generating response
         for i, j, k in zip(text_vector, image_vector, request.json):
@@ -59,6 +77,8 @@ def vectorise():
                 k['image_vector'] = j
             if k['text']:
                 k['text_vector'] = i
+
+        logger.info("Formed Response Successfully")
 
         return jsonify({"vector": request.json}), 200
 
