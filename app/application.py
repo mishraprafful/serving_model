@@ -7,8 +7,9 @@ from flask import request
 from flask import make_response, render_template
 
 from config import config
-from utils.request_parser import parse_request
 from encoder import text_encoder
+from encoder import image_encoder
+from utils.request_parser import parse_request
 
 app = Flask(__name__, template_folder="./templates/")
 
@@ -40,9 +41,12 @@ def vectorise():
         return jsonify(error), 402
     else:
         batch_text = list(map(itemgetter('text'), request.json))
-        vector = text_encoder.vectorise(batch_text)
+        batch_urls = list(map(itemgetter('image'), request.json))
 
-        return jsonify({"vector": vector}), 200
+        text_vector = text_encoder.vectorise(batch_text)
+        image_vector = image_encoder.vectorise(batch_urls)
+
+        return jsonify({"vector": image_vector}), 200
 
 
 if __name__ == "__main__":
