@@ -7,9 +7,13 @@ from flask import request
 from flask import make_response, render_template
 
 from config import config
-from encoder import text_encoder
-from encoder import image_encoder
+from encoder.text_encoder import TextEncoder
+from encoder.image_encoder import ImageEncoder
 from utils.request_parser import parse_request
+
+# init ecnoders
+text_model = TextEncoder()
+image_model = ImageEncoder()
 
 app = Flask(__name__, template_folder="./templates/")
 
@@ -46,8 +50,8 @@ def vectorise():
         batch_urls = list(map(itemgetter('image'), request.json))
 
         # vectorising inputs
-        text_vector = text_encoder.vectorise(batch_text)
-        image_vector = image_encoder.vectorise(batch_urls)
+        text_vector = text_model.vectorise(batch_text)
+        image_vector = image_model.vectorise(batch_urls)
 
         # generating response
         for i, j, k in zip(text_vector, image_vector, request.json):
