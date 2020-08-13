@@ -18,6 +18,7 @@ get-models:
 run-local-server:
 	make get-models
 	make local-setup
+	make unit-test
 	cd app && python3 application.py
 
 #########
@@ -33,6 +34,8 @@ unit-test:
 
 build-image:
 	make get-models
+	make local-setup
+	make unit-test
 	docker build -t model_server .
 
 run-container-server:
