@@ -1,0 +1,3 @@
+outs:
+- md5: 6cc17158019c8e683525834f5208c86a.dir
+  path: resnet101

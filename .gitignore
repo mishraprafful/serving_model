@@ -2,3 +2,4 @@
 /.dvc/tmp
 /.dvc/cache
 /model/bert/
+/model/resnet101
