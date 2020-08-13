@@ -1,6 +1,6 @@
 import requests
-from torch import cat
 from io import BytesIO
+from torch import cat, cuda, device
 from PIL import Image, UnidentifiedImageError
 
 
@@ -8,31 +8,51 @@ import torchvision.transforms as transforms
 from network.image_model import ImageFeatureExtractor
 
 
-# initiating model
-model = ImageFeatureExtractor()
-model.freeze_all_layer()
-model.eval()
+class ImageEncoder():
 
+    def __init__(self):
 
-def preprocess_images(urls):
+        # configuring device
+        self.machine_device = 'cuda' if cuda.is_available() else 'cpu'
 
-    preprocessed_imgs = []
-    for url in urls:
-        if url:
-            response = requests.get(url)
-            image_ = Image.open(BytesIO(response.content))
-        else:
-            image_ = Image.new('RGB', (300, 300), (0, 0, 0))
-        resize = transforms.Resize((300, 300))
-        loader = transforms.Compose([resize, transforms.ToTensor()])
-        img = loader(image_).float().unsqueeze(0)
-        preprocessed_imgs.append(img)
+        # initialising image model
+        self.model = ImageFeatureExtractor()
+        self.model.freeze_all_layer()
+        self.model.eval()
 
-    return cat(preprocessed_imgs, dim=0)
+        self.model.to(device(self.machine_device))
 
+    def preprocess_images(self, urls):
+        """ Preprocess Images
+            Arguments:
+                [list] -- [list of urls]
+            Returns:
+                [tensor] -- [tensor of tensors]
+        """
 
-def vectorise(urls):
+        preprocessed_imgs = []
+        for url in urls:
+            if url:
+                response = requests.get(url)
+                image_ = Image.open(BytesIO(response.content))
+            else:
+                image_ = Image.new('RGB', (300, 300), (0, 0, 0))
+            resize = transforms.Resize((300, 300))
+            loader = transforms.Compose([resize, transforms.ToTensor()])
+            img = loader(image_).float().unsqueeze(0)
+            preprocessed_imgs.append(img)
 
-    image_inputs = preprocess_images(urls)
-    vectors = model(image_inputs).cpu().detach().numpy().tolist()
-    return vectors
+        return cat(preprocessed_imgs, dim=0)
+
+    def vectorise(self, urls):
+        """ Vectorise Images
+        Arguments:
+            [list] -- [list of urls]
+        Returns:
+            [list] -- [list of tensors]
+        """
+
+        image_inputs = self.preprocess_images(urls)
+        image_inputs.to(device(self.machine_device))
+        vectors = self.model(image_inputs).cpu().detach().numpy().tolist()
+        return vectors
