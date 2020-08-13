@@ -1,4 +1,5 @@
 import os
+from operator import itemgetter
 
 from flask import Flask
 from flask import jsonify, Response
@@ -7,6 +8,7 @@ from flask import make_response, render_template
 
 from config import config
 from utils.request_parser import parse_request
+from encoder import text_encoder
 
 app = Flask(__name__, template_folder="./templates/")
 
@@ -14,6 +16,8 @@ app = Flask(__name__, template_folder="./templates/")
 app.config.from_object(config)
 
 # html rendered homepage
+
+
 @app.route("/", methods=["GET"])
 def index():
     headers = {"Content-Type": "text/html"}
@@ -35,8 +39,10 @@ def vectorise():
     if error is not None:
         return jsonify(error), 402
     else:
-        vector = [1, 2, 3]
-        return jsonify({"vector": vector}), 200
+        batch_text = list(map(itemgetter('text'), request.json))
+        vector = text_encoder.vectorise(batch_text)
+
+        return jsonify({"vector": batch_text}), 200
 
 
 if __name__ == "__main__":
