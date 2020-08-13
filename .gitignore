@@ -1,5 +1,10 @@
+# DVC ignored files
 /.dvc/config.local
 /.dvc/tmp
 /.dvc/cache
-/model/bert/
+
+# model files
 /model/resnet101
+
+# pycache
+*.pyc
