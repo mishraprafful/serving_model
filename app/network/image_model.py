@@ -6,7 +6,7 @@ import torchvision.models as models
 
 from config import config
 
-resnet_model_path = os.path.join(
+resnet_model_path = join(
     config.MODEL_DIR, "resnet101", "resnet101_imagenet.pt")
 
 
@@ -22,7 +22,7 @@ class ImageFeatureExtractor(nn.Module):
             }
 
         self.resnet101 = models.resnet101()
-        self.resnet101.load_state_dict(torch.load(resnet_model_path))
+        self.resnet101.load_state_dict(load(resnet_model_path))
         if self._config['outlayer'] == 'C5':
             self.output_layer = nn.Sequential(*(
                 list(self.resnet101.children())[:-1]))
