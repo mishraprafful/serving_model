@@ -42,7 +42,7 @@ def vectorise():
         batch_text = list(map(itemgetter('text'), request.json))
         vector = text_encoder.vectorise(batch_text)
 
-        return jsonify({"vector": batch_text}), 200
+        return jsonify({"vector": vector}), 200
 
 
 if __name__ == "__main__":
