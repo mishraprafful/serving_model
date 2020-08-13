@@ -1,7 +1,5 @@
-import os
-
-
-class Config:
-
+class config:
     THEME = "default"
     DEBUG = "True"
+
+    MODEL_DIR = "../model/"
