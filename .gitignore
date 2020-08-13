@@ -1,0 +1,4 @@
+/.dvc/config.local
+/.dvc/tmp
+/.dvc/cache
+/model/bert/
