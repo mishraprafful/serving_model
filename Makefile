@@ -19,7 +19,7 @@ run-local-server:
 	make get-models
 	make local-setup
 	make unit-test
-	cd app && python3 application.py
+	cd app && flask run
 
 #########
 # tests #
