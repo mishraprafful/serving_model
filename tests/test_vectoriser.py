@@ -11,7 +11,7 @@ class BasicTests(unittest.TestCase):
         # setting required environment variables
 
         global application, request_data
-        from application import app
+        from app import app
         self.application = app.test_client()
 
         with open("./tests/test_data/valid_request.json", 'r') as file:

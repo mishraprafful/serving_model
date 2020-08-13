@@ -26,7 +26,7 @@ run-local-server:
 #########
 
 unit-test:
-	cd app && python -m unittest discover -v -s tests/ -p 'test_*.py'
+	python -m unittest discover -v -s tests/ -p 'test_*.py'
 
 #############################################
 # Building and running Docker image locally #
