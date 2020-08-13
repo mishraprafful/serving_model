@@ -4,21 +4,12 @@ from flask import Flask
 from flask import jsonify, request, Response
 from flask import make_response, render_template
 
+from config import config
+
 app = Flask(__name__, template_folder="./templates/")
 
-# Default config vals
-if os.getenv("TEST") != "True":
-    os.environ["TEST"] = "False"
-THEME = "default" if os.environ.get("THEME") is None else os.environ.get("THEME")
-FLASK_DEBUG = (
-    "True" if os.environ.get("FLASK_DEBUG") is None else os.environ.get("FLASK_DEBUG")
-)
-
-# Load config values specified above
-app.config.from_object(__name__)
-
-# Only enable Flask debugging if an env var is set to true
-app.debug = app.config["FLASK_DEBUG"] in ["True", "true"]
+# Load config values from config
+app.config.from_object(config)
 
 # html rendered homepage
 @app.route("/", methods=["GET"])
