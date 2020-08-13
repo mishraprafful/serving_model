@@ -4,28 +4,32 @@ from torch import cuda, device
 from transformers import BertTokenizer
 from network.text_model import BertForFeatureExtraction
 
-# configuring device
-machine_device = 'cuda' if cuda.is_available() else 'cpu'
 
-# loading the model and tokenizer
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-feature_extractor = BertForFeatureExtraction()
-feature_extractor.freeze_bert_encoder()
-feature_extractor.to(device(machine_device))
+class TextEncoder():
 
+    def __init__(self):
 
-def vectorise(batch_text):
-    """ Vectorise Text
-    Arguments:
-       [list] -- [list of str]
-    Returns:
-        [list] -- [list of tensors]
-    """
+        # configuring device
+        self.machine_device = 'cuda' if cuda.is_available() else 'cpu'
 
-    input_ids = tokenizer.batch_encode_plus(
-        batch_text_or_text_pairs=batch_text, add_special_tokens=True, pad_to_max_length=True, return_tensors="pt")['input_ids']
+        # loading the model and tokenizer
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        self.feature_extractor = BertForFeatureExtraction()
+        self.feature_extractor.freeze_bert_encoder()
+        self.feature_extractor.to(device(self.machine_device))
 
-    input_ids.to(device(machine_device))
-    result = feature_extractor(input_ids).cpu().tolist()
+    def vectorise(self, batch_text):
+        """ Vectorise Text
+        Arguments:
+        [list] -- [list of str]
+        Returns:
+            [list] -- [list of tensors]
+        """
 
-    return result
+        input_ids = self.tokenizer.batch_encode_plus(
+            batch_text_or_text_pairs=batch_text, add_special_tokens=True, pad_to_max_length=True, return_tensors="pt")['input_ids']
+
+        input_ids.to(device(self.machine_device))
+        result = self.feature_extractor(input_ids).cpu().tolist()
+
+        return result
