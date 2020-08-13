@@ -40,13 +40,21 @@ def vectorise():
     if error is not None:
         return jsonify(error), 402
     else:
+
+        # generating batch of image_urls and text
         batch_text = list(map(itemgetter('text'), request.json))
         batch_urls = list(map(itemgetter('image'), request.json))
 
+        # vectorising inputs
         text_vector = text_encoder.vectorise(batch_text)
         image_vector = image_encoder.vectorise(batch_urls)
 
-        return jsonify({"vector": image_vector}), 200
+        # generating response
+        for i, j, k in zip(text_vector, image_vector, request.json):
+            k['image_vector'] = i
+            k['text_vector'] = j
+
+        return jsonify({"vector": request.json}), 200
 
 
 if __name__ == "__main__":
