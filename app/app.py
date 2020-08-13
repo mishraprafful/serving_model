@@ -1,7 +1,7 @@
-from utils.request_parser import parse_request
-from encoder.image_encoder import ImageEncoder
-from encoder.text_encoder import TextEncoder
-from config import config
+from app.utils.request_parser import parse_request
+from app.encoder.image_encoder import ImageEncoder
+from app.encoder.text_encoder import TextEncoder
+from app.config import config
 import os
 import sys
 from operator import itemgetter

@@ -4,7 +4,7 @@ from torch import nn, load
 from torch.nn import functional
 import torchvision.models as models
 
-from config import config
+from app.config import config
 
 resnet_model_path = join(
     config.MODEL_DIR, "resnet101", "resnet101_imagenet.pt")

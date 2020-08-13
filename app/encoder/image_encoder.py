@@ -6,7 +6,7 @@ from PIL import Image, UnidentifiedImageError
 
 
 import torchvision.transforms as transforms
-from network.image_model import ImageFeatureExtractor
+from app.network.image_model import ImageFeatureExtractor
 
 logger = logging.getLogger('root')
 

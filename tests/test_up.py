@@ -10,7 +10,7 @@ class BasicTests(unittest.TestCase):
         # setting required environment variables
 
         global application
-        from app import app
+        from app.app import app
         self.application = app.test_client()
 
     # executed after each test

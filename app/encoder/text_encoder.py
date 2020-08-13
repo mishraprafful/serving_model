@@ -3,7 +3,7 @@ import logging
 from torch import cuda, device
 
 from transformers import BertTokenizer
-from network.text_model import BertForFeatureExtraction
+from app.network.text_model import BertForFeatureExtraction
 
 logger = logging.getLogger('root')
 
