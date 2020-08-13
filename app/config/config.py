@@ -1,5 +1,4 @@
-class config:
-    THEME = "default"
-    DEBUG = "True"
+THEME = "default"
+DEBUG = "True"
 
-    MODEL_DIR = "../model/"
+MODEL_DIR = "../model/"
