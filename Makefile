@@ -20,6 +20,13 @@ run-local-server:
 	make local-setup
 	cd app && python3 application.py
 
+#########
+# tests #
+#########
+
+unit-test:
+	cd app && python -m unittest discover -v -s tests/ -p 'test_*.py'
+
 #############################################
 # Building and running Docker image locally #
 #############################################
