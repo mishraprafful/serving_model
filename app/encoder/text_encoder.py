@@ -26,6 +26,6 @@ def vectorise(batch_text):
         batch_text_or_text_pairs=batch_text, add_special_tokens=True, pad_to_max_length=True, return_tensors="pt")['input_ids']
 
     input_ids.to(device(machine_device))
-    result = feature_extractor(input_ids)
+    result = feature_extractor(input_ids).cpu().tolist()
 
     return result
