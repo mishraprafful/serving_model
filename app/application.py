@@ -51,8 +51,10 @@ def vectorise():
 
         # generating response
         for i, j, k in zip(text_vector, image_vector, request.json):
-            k['image_vector'] = i
-            k['text_vector'] = j
+            if k['image']:
+                k['image_vector'] = j
+            if k['text']:
+                k['text_vector'] = i
 
         return jsonify({"vector": request.json}), 200
 
