@@ -80,7 +80,7 @@ def vectorise():
 
         logger.info("Formed Response Successfully")
 
-        return jsonify({"vector": request.json}), 200
+        return jsonify(request.json), 200
 
 
 if __name__ == "__main__":
