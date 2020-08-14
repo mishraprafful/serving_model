@@ -37,7 +37,7 @@ where, `text` represents a sentence that needes to be vectorised and `image` rep
     ]
 ```
 
-If one doesn't want the image or text vector, it can simply be replaced with an empty string `""`  (as in the following request)and the response will not have the key for the relevant vector.
+If one doesn't want the image or text vector, it can simply be replaced with an empty string `""` (as in the following request) and the response will not have the key for the relevant vector.
 
 ```json
 [
@@ -77,3 +77,4 @@ NOTE: Pushing images to a Cloud Registry has been left for future scope.
 * Commands for pushing to AWS ECR are available but are commented. This can be enabled in future to be able to push and pull from a remote registry.
 * Port number of the API should be configurable.
 * Better error handling for URL validation should be implemented.
+* Docker-compose file is missing from the repo, should be added.
