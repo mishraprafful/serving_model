@@ -68,6 +68,16 @@ To start the server through a docker image, run the command `make build-image`. 
 
 NOTE: Pushing images to a Cloud Registry has been left for future scope.
 
+## Deploying using Kubernetes
+
+Once you have configured your machine to use the cluster using `kubeconfig.yaml` and have generated your image pull secrets ([as desribed here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)).
+
+* Put the imagePullSecrets in `kubernetes-pos.yaml`
+
+* Run command `kubectl create -f kubernetes-pod.yaml`
+
+* To check the status of the deployment `kubectl get deployments`
+
 ## Points of Improvement
 
 * Slimmer Base Image can be used for docker.
