@@ -3,8 +3,8 @@ apiVersion: v1
 kind: Pod
 metadata:
     name: model_server
-
-    spec:
+    app: web
+spec:
     replicas: 2
     selector:
         matchLabels:
