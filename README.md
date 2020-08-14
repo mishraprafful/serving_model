@@ -37,27 +37,41 @@ where, `text` represents a sentence that needes to be vectorised and `image` rep
     ]
 ```
 
-If one doesn't want the image or text vector, it can simply be replaces with an empty string `""` and the response will not have the key for the relevant vector.
+If one doesn't want the image or text vector, it can simply be replaced with an empty string `""`  (as in the following request)and the response will not have the key for the relevant vector.
+
+```json
+[
+    {
+        "text": "",
+        "image": "https://kinsta.com/wp-content/uploads/2019/08/jpg-vs-jpeg.jpg"
+    }, {
+        "text": "this is a sentence",
+        "image": ""
+    }
+]
+```
 
 ## Setup
 
-To setup the required dependencies in an environment, simply run the command `make local-setup`.
-To get the models from the connected google drive using DVC, simply run the command `make get-models`.
+To setup the required dependencies in an environment,  run the command `make local-setup`.
+To get the models from the connected google drive using DVC,  run the command `make get-models`.
 
 ## Get Started
 
-* Local Server
-To start the server locally in an environment, simply run the command `make run-local-sever`. This command runs the setup commands first, followed by `unit-tests` and then starts a local sever in the terminal.
+Once the server is up it runs on port 5000 of the machine as a default
 
-* Docker Server
-To start the server through a docker image, simply run the command `make build-image`. Similar to the local server, this internally triggers the unit-tests before building the docker image.
+* **Local Server:**
+To start the server locally in an environment,  run the command `make run-local-sever`. This command runs the setup commands first, followed by `unit-tests` and then starts a local sever in the terminal.
 
-Once the docker image is built, we can run the command `make run-container-server`. Pushing images to a cloud Registry has been left for future scope.
+* **Docker Server:**
+To start the server through a docker image, run the command `make build-image`. Similar to the local server, this internally triggers the unit-tests before building the docker image. Once the docker image is built, we can run the command `make run-container-server` to run the server on a docker container in detached mode.
+**NOTE:**Pushing images to a Cloud Registry has been left for future scope.
 
 ## Points of Improvement
 
-* Slimmer Image can be used for docker
-* Container takes some time to come live the first time, due to pre-trained BERT being loaded on the fly. This can be chnaged by having BERT locally as resnet101 is.
-* When no text or image is specified in request, we are filtering out the vectors for empty string and a black image while formin g the response, this can be changed to not compute these vectors at all to improve the response time.
+* Slimmer Base Image can be used for docker.
+* Container takes some time to come live the first time, due to pre-trained BERT being loaded on the fly. This can be changed by having BERT locally as `resnet101` is.
+* When no text or image is specified in the request, we are filtering out the vectors for empty string and black images while forming the response. Not computing these vectors at all can improve the response time.
 * CONTRIBUTING.txt is missing from the repo, it should be added.
 * Commands for pushing to AWS ECR are available but are commented. This can be enabled in future to be able to push and pull from a remote registry.
+* Port number of the API should be configurable.
