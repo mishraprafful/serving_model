@@ -7,7 +7,6 @@ def get_project_root() -> Path:
 
 
 # flask realted config variables
-ENVIRONMENT = "production"
 FLASK_ENV = "production"
 THEME = "default"
 DEBUG = "False"
