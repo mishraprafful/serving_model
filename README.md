@@ -65,7 +65,8 @@ To start the server locally in an environment,  run the command `make run-local-
 
 * **Docker Server:**
 To start the server through a docker image, run the command `make build-image`. Similar to the local server, this internally triggers the unit-tests before building the docker image. Once the docker image is built, we can run the command `make run-container-server` to run the server on a docker container in detached mode.
-**NOTE:**Pushing images to a Cloud Registry has been left for future scope.
+
+NOTE: Pushing images to a Cloud Registry has been left for future scope.
 
 ## Points of Improvement
 
