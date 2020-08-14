@@ -17,5 +17,6 @@ metadata:
           containers:
             - name: model_server_container
             image: XXXXXXXXXX.dkr.ecr.${REGION}.amazonaws.com/model_server #private registry for docker
+            # imagePullSecrets:
             ports:
                 - containerPort: 5000
