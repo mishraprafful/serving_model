@@ -42,7 +42,7 @@ If one doesn't want the image or text vector, it can simply be replaces with an 
 ## Setup
 
 To setup the required dependencies in an environment, simply run the command `make local-setup`.
-To get the models from the connected google drive, simply run the command `make get-models`.
+To get the models from the connected google drive using DVC, simply run the command `make get-models`.
 
 ## Get Started
 
