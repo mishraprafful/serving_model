@@ -77,3 +77,4 @@ NOTE: Pushing images to a Cloud Registry has been left for future scope.
 * Commands for pushing to AWS ECR are available but are commented. This can be enabled in future to be able to push and pull from a remote registry.
 * Port number of the API should be configurable.
 * Better error handling for URL validation should be implemented.
+* Docker-compose file is missing from the repo, should be added.
