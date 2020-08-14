@@ -32,55 +32,62 @@ logger.info("Config Imported Successfully")
 
 @app.route("/", methods=["GET"])
 def index():
-    headers = {"Content-Type": "text/html"}
-    logger.info("Rendered HTML Page")
-    return make_response(render_template("index.html"), 200, headers)
+    try:
+        headers = {"Content-Type": "text/html"}
+        logger.info("Rendered HTML Page")
+        return make_response(render_template("index.html"), 200, headers)
+    except:
+        return jsonify({'error': 'Oops! Something went wrong !!!'}), 500
 
 
 # vectoriser endpoint
 @app.route("/vectorise", methods=["POST"])
 def vectorise():
 
-    auth = request.headers.get("Content-Type")
+    try:
 
-    # verifying headers
-    if auth != 'application/json':
-        logger.error("Not Authorised")
-        return jsonify({"Status": "Unauthorised Access"}), 401
+        auth = request.headers.get("Content-Type")
 
-    logger.info("Autorization Successful")
+        # verifying headers
+        if auth != 'application/json':
+            logger.error("Not Authorised")
+            return jsonify({"Status": "Unauthorised Access"}), 401
 
-    # parsing reequest
-    error, req = parse_request(request)
-    if error is not None:
-        logger.error("Invalid Request! Parsing Unsucessful")
-        return jsonify(error), 402
-    else:
+        logger.info("Autorization Successful")
 
-        logger.info("Request Parsed")
+        # parsing reequest
+        error, req = parse_request(request)
+        if error is not None:
+            logger.error("Invalid Request! Parsing Unsucessful")
+            return jsonify(error), 402
+        else:
 
-        # generating batch of image_urls and text
-        batch_text = list(map(itemgetter('text'), request.json))
-        batch_urls = list(map(itemgetter('image'), request.json))
+            logger.info("Request Parsed")
 
-        logger.info("Batches generated")
+            # generating batch of image_urls and text
+            batch_text = list(map(itemgetter('text'), request.json))
+            batch_urls = list(map(itemgetter('image'), request.json))
 
-        # vectorising inputs
-        text_vector = text_model.vectorise(batch_text)
-        image_vector = image_model.vectorise(batch_urls)
+            logger.info("Batches generated")
 
-        logger.info("Vectorisation Successful")
+            # vectorising inputs
+            text_vector = text_model.vectorise(batch_text)
+            image_vector = image_model.vectorise(batch_urls)
 
-        # generating response
-        for i, j, k in zip(text_vector, image_vector, request.json):
-            if k['image']:
-                k['image_vector'] = j
-            if k['text']:
-                k['text_vector'] = i
+            logger.info("Vectorisation Successful")
 
-        logger.info("Formed Response Successfully")
+            # generating response
+            for i, j, k in zip(text_vector, image_vector, request.json):
+                if k['image']:
+                    k['image_vector'] = j
+                if k['text']:
+                    k['text_vector'] = i
 
-        return jsonify(request.json), 200
+            logger.info("Formed Response Successfully")
+
+            return jsonify(request.json), 200
+    except:
+        return jsonify({'error': 'Oops! Something went wrong !!!'}), 500
 
 
 if __name__ == "__main__":
