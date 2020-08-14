@@ -16,4 +16,4 @@ COPY ./ /model_server/
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python3","-u","application.py"] 
+ENTRYPOINT ["flask","run","-h","0.0.0.0"] 
