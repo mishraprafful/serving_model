@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+    name: model_server
+
+    spec:
+    replicas: 2
+    selector:
+        matchLabels:
+        app: web
+    template:
+        metadata:
+        labels:
+            app: web
+        spec:
+          containers:
+            - name: model_server_container
+            image: XXXXXXXXXX.dkr.ecr.${REGION}.amazonaws.com/model_server #private registry for docker
+            ports:
+                - containerPort: 5000
