@@ -37,7 +37,7 @@ where, `text` represents a sentence that needes to be vectorised and `image` rep
     ]
 ```
 
-If one doesn't want the image or text vector, it can simply be replaced with an empty string `""`  (as in the following request)and the response will not have the key for the relevant vector.
+If one doesn't want the image or text vector, it can simply be replaced with an empty string `""` (as in the following request) and the response will not have the key for the relevant vector.
 
 ```json
 [
