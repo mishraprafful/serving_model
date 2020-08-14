@@ -1,5 +1,5 @@
-# REGISTRY=xxxxxxxxxxxx
-# REGION=us-east-1
+REGISTRY=xxxxxxxxxxxx
+REGION=us-east-1
 
 ###############
 # Local Setup #
@@ -46,12 +46,12 @@ run-container-server:
 #################################################
 # Pushing and pulling Docker image from AWS ECR #
 #################################################
-# push-image:
-# 	$(aws ecr get-login --no-include-email --region ${REGION})
-# 	docker tag model_server ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server 
-# 	docker push ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server
+push-image:
+	$(aws ecr get-login --no-include-email --region ${REGION})
+	docker tag model_server ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server 
+	docker push ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server
 
-# pull-image:
-# 	$(aws ecr get-login --no-include-email --region ${REGION})
-# 	docker pull ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server
-# 	docker tag ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server model_server 
+pull-image:
+	$(aws ecr get-login --no-include-email --region ${REGION})
+	docker pull ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server
+	docker tag ${REGISTRY}.dkr.ecr.${REGION}.amazonaws.com/model_server model_server 
