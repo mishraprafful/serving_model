@@ -7,8 +7,10 @@ def get_project_root() -> Path:
 
 
 # flask realted config variables
+ENVIRONMENT = "production"
+FLASK_ENV = "production"
 THEME = "default"
-DEBUG = "True"
+DEBUG = "False"
 
 # model related config variables
 MODEL_DIR = join(get_project_root(), "model")
